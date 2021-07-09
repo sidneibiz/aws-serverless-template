@@ -1,0 +1,30 @@
+service: web-serverless
+useDotenv: true
+provider:
+  name: aws
+  region: sa-east-1
+  runtime: nodejs12.x
+  httpApi:
+    payload: "1.0"
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!.vscode/**'
+
+plugins:
+  - serverless-offline
+
+functions:
+  graphql:
+    handler: functions/index.graphqlHandler
+    timeout: 30
+    tags:
+      APPLICATION: web
+    events:
+      - httpApi:
+          path: /graphql
+          method: post
+      - httpApi:
+          path: /graphql
+          method: get
